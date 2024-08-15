@@ -11,10 +11,10 @@ public class BuildingDaoImpl implements BuildingDao {
 
     private String DB_URL = "jdbc:mysql://localhost:3306/javasql";
     private String USER = "root";
-    private String PASS = "Hai0397564869";
+    private String PASS = "111003";
 
     @Override
-    public List<BuildingEntity> findBuilding(String name) {
+    public List<BuildingEntity> findBuilding(String name, String street, String district, String ward, Integer floorArea) {
         List<BuildingEntity> results = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
@@ -24,8 +24,25 @@ public class BuildingDaoImpl implements BuildingDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql = "select * from building where name = '"+name+"'";
-            rs = stmt.executeQuery(sql);
+
+            StringBuilder sql = new StringBuilder("select * from building where 1 = 1");
+            if (name != null && name != "") {
+                sql.append(" and name like '%"+name+"%'");
+            }
+            if (street != null && street != "") {
+                sql.append(" and street like '%"+street+"%'");
+            }
+            if (district != null && district != "") {
+                sql.append(" and district like '%"+district+"%'");
+            }
+            if (ward != null && ward != "") {
+                sql.append(" and ward like '%"+ward+"%'");
+            }
+            if (floorArea != null) {
+                sql.append(" and floorarea = "+floorArea+"");
+            }
+            rs = stmt.executeQuery(sql.toString());
+
             while(rs.next()) {
                 BuildingEntity buildingEntity = new BuildingEntity();
                 buildingEntity.setId(rs.getLong("id"));

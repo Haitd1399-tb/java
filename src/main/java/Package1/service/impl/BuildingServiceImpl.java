@@ -17,7 +17,15 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public List<BuildingSearchOutput> findBuilding(BuildingSearchInput buildingSearchFilterInput) {
         List<BuildingSearchOutput> results = new ArrayList<>();
-        List<BuildingEntity> buildingEntities = buildingDao.findBuilding(buildingSearchFilterInput.getName());
+
+        List<BuildingEntity> buildingEntities = buildingDao.findBuilding(
+                buildingSearchFilterInput.getName(),
+                buildingSearchFilterInput.getStreet(),
+                buildingSearchFilterInput.getDistrict(),
+                buildingSearchFilterInput.getWard(),
+                buildingSearchFilterInput.getFloorArea()
+                );
+
 
         for(BuildingEntity item: buildingEntities) {
             BuildingSearchOutput buildingSearchFilterOutput = new BuildingSearchOutput();
