@@ -1,7 +1,7 @@
 package Package1.dao.impl;
 
 import Package1.dao.BuildingDao;
-import Package1.dao.ckyeuvk.BuildingCkyeuvk;
+import Package1.dao.entity.BuildingEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ public class BuildingDaoImpl implements BuildingDao {
 
     private String DB_URL = "jdbc:mysql://localhost:3306/javasql";
     private String USER = "root";
-    private String PASS = "111003";
+    private String PASS = "Hai0397564869";
 
     @Override
-    public List<BuildingCkyeuvk> findBuilding(String name) {
-        List<BuildingCkyeuvk> results = new ArrayList<>();
+    public List<BuildingEntity> findBuilding(String name) {
+        List<BuildingEntity> results = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -27,13 +27,13 @@ public class BuildingDaoImpl implements BuildingDao {
             String sql = "select * from building where name = '"+name+"'";
             rs = stmt.executeQuery(sql);
             while(rs.next()) {
-                BuildingCkyeuvk buildingCkyeuvk = new BuildingCkyeuvk();
-                buildingCkyeuvk.setId(rs.getLong("id"));
-                buildingCkyeuvk.setName(rs.getString("name"));
-                buildingCkyeuvk.setStreet(rs.getString("street"));
-                buildingCkyeuvk.setDistrict(rs.getString("district"));
-                buildingCkyeuvk.setWard(rs.getString("ward"));
-                results.add(buildingCkyeuvk);
+                BuildingEntity buildingEntity = new BuildingEntity();
+                buildingEntity.setId(rs.getLong("id"));
+                buildingEntity.setName(rs.getString("name"));
+                buildingEntity.setStreet(rs.getString("street"));
+                buildingEntity.setDistrict(rs.getString("district"));
+                buildingEntity.setWard(rs.getString("ward"));
+                results.add(buildingEntity);
             }
             return  results;
         } catch (SQLException | ClassNotFoundException e) {

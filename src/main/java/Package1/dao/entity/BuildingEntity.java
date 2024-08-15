@@ -1,6 +1,6 @@
-package Package1.dao.ckyeuvk;
+package Package1.dao.entity;
 
-public class BuildingCkyeuvk {
+public class BuildingEntity {
 
     private Long id;
     private String name;
