@@ -26,7 +26,6 @@ public class BuildingServiceImpl implements BuildingService {
                 buildingSearchFilterInput.getFloorArea()
                 );
 
-
         for(BuildingEntity item: buildingEntities) {
             BuildingSearchOutput buildingSearchFilterOutput = new BuildingSearchOutput();
             buildingSearchFilterOutput.setId(item.getId());

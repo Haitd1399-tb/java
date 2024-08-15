@@ -11,7 +11,7 @@ public class BuildingDaoImpl implements BuildingDao {
 
     private String DB_URL = "jdbc:mysql://localhost:3306/javasql";
     private String USER = "root";
-    private String PASS = "111003";
+    private String PASS = "Hai0397564869";
 
     @Override
     public List<BuildingEntity> findBuilding(String name, String street, String district, String ward, Integer floorArea) {
