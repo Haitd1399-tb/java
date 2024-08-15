@@ -1,7 +1,7 @@
 package Package1.service.impl;
 
 import Package1.dao.BuildingDao;
-import Package1.dao.ckyeuvk.BuildingCkyeuvk;
+import Package1.dao.entity.BuildingEntity;
 import Package1.dao.impl.BuildingDaoImpl;
 import Package1.model.input.BuildingSearchInput;
 import Package1.model.output.BuildingSearchOutput;
@@ -17,9 +17,15 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public List<BuildingSearchOutput> findBuilding(BuildingSearchInput buildingSearchFilterInput) {
         List<BuildingSearchOutput> results = new ArrayList<>();
-        List<BuildingCkyeuvk> buildingCkyeuvks = buildingDao.findBuilding(buildingSearchFilterInput.getName());
+        List<BuildingEntity> buildingEntities = buildingDao.findBuilding(
+                buildingSearchFilterInput.getName(),
+                buildingSearchFilterInput.getStreet(),
+                buildingSearchFilterInput.getDistrict(),
+                buildingSearchFilterInput.getWard(),
+                buildingSearchFilterInput.getFloorArea()
+                );
 
-        for(BuildingCkyeuvk item: buildingCkyeuvks) {
+        for(BuildingEntity item: buildingEntities) {
             BuildingSearchOutput buildingSearchFilterOutput = new BuildingSearchOutput();
             buildingSearchFilterOutput.setId(item.getId());
             buildingSearchFilterOutput.setName(item.getName());

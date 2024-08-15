@@ -1,7 +1,7 @@
 package Package1.dao.impl;
 
 import Package1.dao.BuildingDao;
-import Package1.dao.ckyeuvk.BuildingCkyeuvk;
+import Package1.dao.entity.BuildingEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ public class BuildingDaoImpl implements BuildingDao {
     private String PASS = "111003";
 
     @Override
-    public List<BuildingCkyeuvk> findBuilding(String name) {
-        List<BuildingCkyeuvk> results = new ArrayList<>();
+    public List<BuildingEntity> findBuilding(String name, String street, String district, String ward, Integer floorArea) {
+        List<BuildingEntity> results = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -24,16 +24,33 @@ public class BuildingDaoImpl implements BuildingDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            String sql = "select * from building where name = '"+name+"'";
-            rs = stmt.executeQuery(sql);
+
+            StringBuilder sql = new StringBuilder("select * from building where 1 = 1");
+            if (name != null && name != "") {
+                sql.append(" and name like '%"+name+"%'");
+            }
+            if (street != null && street != "") {
+                sql.append(" and street like '%"+street+"%'");
+            }
+            if (district != null && district != "") {
+                sql.append(" and district like '%"+district+"%'");
+            }
+            if (ward != null && ward != "") {
+                sql.append(" and ward like '%"+ward+"%'");
+            }
+            if (floorArea != null) {
+                sql.append(" and floorarea = "+floorArea+"");
+            }
+            rs = stmt.executeQuery(sql.toString());
+
             while(rs.next()) {
-                BuildingCkyeuvk buildingCkyeuvk = new BuildingCkyeuvk();
-                buildingCkyeuvk.setId(rs.getLong("id"));
-                buildingCkyeuvk.setName(rs.getString("name"));
-                buildingCkyeuvk.setStreet(rs.getString("street"));
-                buildingCkyeuvk.setDistrict(rs.getString("district"));
-                buildingCkyeuvk.setWard(rs.getString("ward"));
-                results.add(buildingCkyeuvk);
+                BuildingEntity buildingEntity = new BuildingEntity();
+                buildingEntity.setId(rs.getLong("id"));
+                buildingEntity.setName(rs.getString("name"));
+                buildingEntity.setStreet(rs.getString("street"));
+                buildingEntity.setDistrict(rs.getString("district"));
+                buildingEntity.setWard(rs.getString("ward"));
+                results.add(buildingEntity);
             }
             return  results;
         } catch (SQLException | ClassNotFoundException e) {
